@@ -15,7 +15,7 @@ class Templator(object):
         self.templates = []
 
     def add(self, path):
-        if jn(self.site_d, path).lower().endswith('.mk'):
+        if jn(self.site_d, path).lower().endswith('.md'):
             self.content.append(path)
         elif jn(self.site_d, path).lower().endswith(self.template_exts):
             self.templates.append(path)
@@ -31,13 +31,21 @@ class Templator(object):
 
             finished_f = re.sub(r'{{.*?}}', self.match_template, template)
 
+            # Make sure dir exists
+            print(template_f)
+            parts = ''
+            for part in os.path.split(jn(self.output_d, template_f))[:-1]:
+                parts = jn(parts, part)
+                if not os.path.isdir(parts):
+                    os.mkdir(parts)
+
             with open(jn(self.output_d, template_f), 'w') as f:
                 f.write(finished_f)
 
     def match_template(self, template_match):
         template = template_match.group()[2:-2]
         try:
-            content_f = [filename for filename in self.content if filename.endswith(template + '.mk')][0]
+            content_f = [filename for filename in self.content if filename.endswith(template + '.md')][0]
             found = True
         except IndexError:
             print('Couldn\'t find markdown file: ' + template)
