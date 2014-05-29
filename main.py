@@ -29,7 +29,7 @@ class Templator:
             except:
                 print('Failed to read: ' + filename)
 
-            finished_f = re.sub(r'{{.*?}}', self.match_template, template)
+            finished_f = re.sub(r'{{.+}}', self.match_template, template)
 
             # Make sure dir exists
             print(template_f)
