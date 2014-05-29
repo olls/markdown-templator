@@ -6,7 +6,7 @@ import markdown as mk
 jn = os.path.join
 
 
-class Templator(object):
+class Templator:
     def __init__(self, site_d, output_d, template_exts=()):
         self.template_exts = tuple(template_exts) + ('.html', '.htm')
         self.output_d = output_d
